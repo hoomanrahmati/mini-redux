@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import "./App.css";
 
 function App() {
+  const [name, setName] = useState("");
+  const person = useSelector((state) => state);
+  const dispatch = useDispatch();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {person.map((item) => (
+        <div key={item.id}>{item.name}</div>
+      ))}
+      <input
+        onChange={(event) => {
+          setName(event.target.value);
+        }}
+        placeholder="name"
+        value={name}
+      />
+
+      <button
+        onClick={() => {
+          dispatch({
+            type: "addPerson",
+            payload: { name, id: Math.random() * 10000 },
+          });
+          setName("");
+        }}
+      >
+        Submit
+      </button>
     </div>
   );
 }
