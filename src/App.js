@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { addPerson, removePerson, fetchList } from "./store/actions";
 import "./App.css";
 
 function App() {
@@ -7,10 +9,23 @@ function App() {
   const person = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(fetchList());
+  }, []);
+
   return (
     <div className="App">
       {person.map((item) => (
-        <div key={item.id}>{item.name}</div>
+        <div>
+          <div key={item.id}>{item.name}</div>
+          <button
+            onClick={() => {
+              dispatch(removePerson(item.id));
+            }}
+          >
+            remove person
+          </button>
+        </div>
       ))}
       <input
         onChange={(event) => {
@@ -22,10 +37,7 @@ function App() {
 
       <button
         onClick={() => {
-          dispatch({
-            type: "addPerson",
-            payload: { name, id: Math.random() * 10000 },
-          });
+          dispatch(addPerson(name));
           setName("");
         }}
       >
