@@ -16,8 +16,8 @@ function App() {
   return (
     <div className="App">
       {person.map((item) => (
-        <div>
-          <div key={item.id}>{item.name}</div>
+        <div key={item.id}>
+          <div>{item.name}</div>
           <button
             onClick={() => {
               dispatch(removePerson(item.id));
